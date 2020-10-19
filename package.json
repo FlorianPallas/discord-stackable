@@ -1,0 +1,38 @@
+{
+  "name": "discord-stackable",
+  "version": "0.0.0",
+  "description": "Provides a quick and easy way to create complex Discord bots!",
+  "keywords": [
+    "discord",
+    "bot",
+    "stackable",
+    "modular",
+    "typescript",
+    "ts",
+    "node",
+    "discord.js"
+  ],
+  "homepage": "https://github.com/FlorianPallas/discord-stackable#readme",
+  "bugs": {
+    "url": "https://github.com/FlorianPallas/discord-stackable/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "email": "mail@pallas-florian.de",
+    "name": "Florian Pallas",
+    "url": "https://www.pallas-florian.de"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlorianPallas/discord-stackable.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w"
+  }
+}
