@@ -6,10 +6,22 @@ const debug = _debug('core');
 
 export class Bot extends EventEmitter {
   public readonly client: Client;
+  public readonly config: any;
+  public readonly modules;
 
-  constructor(private options: Options) {
+  constructor(options: Options) {
     super();
     this.client = new Client();
+    this.modules = options.modules;
+
+    // Set defaults
+    this.config = Object.assign(
+      {
+        prefix: '!',
+      },
+      options.config
+    );
+
     this.init();
   }
 
@@ -17,10 +29,10 @@ export class Bot extends EventEmitter {
     debug('init');
 
     // Connect to Discord
-    await this.client.login(this.options.config.token);
+    await this.client.login(this.config.token);
 
     // Inititalize submodules in sequence
-    for (const module of this.options.modules || []) {
+    for (const module of this.modules || []) {
       await module(this);
     }
 
@@ -30,11 +42,20 @@ export class Bot extends EventEmitter {
   private main() {
     // Handle messages
     this.client.on('message', (message) => {
+      // Ignore private messages
+      if (message.channel.type === 'dm') return;
+
       // Ignore bot messages
       if (message.author.bot) return;
 
+      // Ignore messages not using the bot prefix
+      if (message.content.indexOf(this.config.prefix) !== 0) return;
+
       // Get keyword and arguments
-      const args = message.content.slice('!'.length).trim().split(/ +/g);
+      const args = message.content
+        .slice(this.config.prefix.length)
+        .trim()
+        .split(/ +/g);
       const keyword = args.shift();
       if (keyword === undefined) {
         return;
