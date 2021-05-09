@@ -18,6 +18,7 @@ export class Bot extends EventEmitter {
     this.config = Object.assign(
       {
         prefix: '!',
+        ignoreBotMessages: true,
       },
       options.config
     );
@@ -46,7 +47,7 @@ export class Bot extends EventEmitter {
       if (message.channel.type === 'dm') return;
 
       // Ignore bot messages
-      if (message.author.bot) return;
+      if (this.config.ignoreBotMessages && message.author.bot) return;
 
       // Ignore messages not using the bot prefix
       if (message.content.indexOf(this.config.prefix) !== 0) return;
